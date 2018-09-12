@@ -7,15 +7,15 @@
  */
 
 import React,{Component} from 'react';
-import {StyleSheet, Text, View, Button} from 'react-native';
+import {StyleSheet, Text, View, Button,TextInput} from 'react-native';
 import LogoTitle from './../component/LogoTitle'
 
 export default class HomeScreen extends Component<Props> {
 
   constructor(props) {
       super(props);
-      this.state = {count: 0 };
-    }
+      this.state = {name: "long",room:"ROOM_TEST" };
+  }
   static navigationOptions = ({ navigation }) => {
     return {
       headerTitle: <LogoTitle />,
@@ -29,22 +29,34 @@ export default class HomeScreen extends Component<Props> {
     };
   };
 
-  componentDidMount() {
-    this.props.navigation.setParams({ increaseCount: this._increaseCount });
+  componentDidMount(){
+      this.props.navigation.navigate('Details',{name:'234',room:'234'});
   }
 
-  _increaseCount = () => {
-    this.setState({ count: this.state.count + 1 });
-  };
+  _joinRoom(){
+    let {name,room} = this.state
+    if(name == null || name == ""){
+      alert("Please choose your name!!!");
+      return;
+    }
+    this.props.navigation.navigate('Details',{name,room});
+  }
 
   render() {
-    const {count} = this.state;
+    const {name,room} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>{count}</Text>
-        <Button
-          title="Go to Details"
-          onPress={() => this.props.navigation.navigate('Details',{id:86,name:'Nguyen Duc Long'})}
+        <TextInput style={{height:50}}
+          onChangeText={(name) => this.setState({name})}
+          defaultValue={name}
+          placeholder="Your name"/>
+        <TextInput style={{height:50}}
+          onChangeText={(room) => this.setState({room})}
+          defaultValue={room}
+          placeholder="Room name"/>
+        <Button style={{height:50}}
+          title="JOIN"
+          onPress={() => this._joinRoom() }
         />
       </View>
     );
@@ -55,7 +67,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
   welcome: {

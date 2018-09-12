@@ -14,7 +14,7 @@
 //
 // import io from 'socket.io-client';
 //
-// const socket = io.connect('https://react-native-webrtc.herokuapp.com', {transports: ['websocket']});
+// const socket = io.connect('http://192.168.1.110:3000/', {transports: ['websocket']});
 //
 // import {
 //   RTCPeerConnection,
@@ -27,6 +27,8 @@
 // } from 'react-native-webrtc';
 //
 // const configuration = {"iceServers": [{"url": "stun:stun.l.google.com:19302"}]};
+//
+// console.log('12314')
 //
 // const pcPeers = {};
 // let localStream;
@@ -67,20 +69,23 @@
 // }
 //
 // function join(roomID) {
-//   socket.emit('join', roomID, function(socketIds){
-//     console.log('join', socketIds);
-//     for (const i in socketIds) {
+//
+//   socket.emit('join', roomID, (socketIds) => {
+//       container.setState({info:socketIds.length});
+//       for (const i in socketIds) {
 //       const socketId = socketIds[i];
 //       createPC(socketId, true);
 //     }
 //   });
 // }
 //
+//
 // function createPC(socketId, isOffer) {
 //   const pc = new RTCPeerConnection(configuration);
 //   pcPeers[socketId] = pc;
 //
 //   pc.onicecandidate = function (event) {
+//     console.warn('onicecandidate');
 //     console.log('onicecandidate', event.candidate);
 //     if (event.candidate) {
 //       socket.emit('exchange', {'to': socketId, 'candidate': event.candidate });
@@ -217,6 +222,7 @@
 //   });
 // });
 //
+//
 // function logError(error) {
 //   console.log("logError", error);
 // }
@@ -243,10 +249,11 @@
 //
 // let container;
 //
-// const RCTWebRTCDemo = React.createClass({
-//   getInitialState: function() {
+// export default class WebRCTApp extends Component<Props> {
+//   constructor(props) {
+//     super(props);
 //     this.ds = new ListView.DataSource({rowHasChanged: (r1, r2) => true});
-//     return {
+//     this.state = {
 //       info: 'Initializing',
 //       status: 'init',
 //       roomID: '',
@@ -257,15 +264,26 @@
 //       textRoomData: [],
 //       textRoomValue: '',
 //     };
-//   },
-//   componentDidMount: function() {
+//
+//       this._press = this._press.bind(this);
+//       this._switchVideoType = this._switchVideoType.bind(this);
+//       this._textRoomPress = this._textRoomPress.bind(this);
+//       this._renderTextRoom = this._renderTextRoom.bind(this);
+//
+//   }
+//
+//   componentDidMount() {
 //     container = this;
-//   },
+//     // container.setState({status: 'ready', info: 'Please enter or create room ID'});
+//   }
+//
 //   _press(event) {
-//     this.refs.roomID.blur();
+//     console.log('1234');
+//      this.refs.roomID.blur();
 //     this.setState({status: 'connect', info: 'Connecting'});
 //     join(this.state.roomID);
-//   },
+//   }
+//
 //   _switchVideoType() {
 //     const isFront = !this.state.isFront;
 //     this.setState({isFront});
@@ -285,12 +303,14 @@
 //         pc && pc.addStream(localStream);
 //       }
 //     });
-//   },
+//   }
+//
 //   receiveTextData(data) {
 //     const textRoomData = this.state.textRoomData.slice();
 //     textRoomData.push(data);
 //     this.setState({textRoomData, textRoomValue: ''});
-//   },
+//   }
+//
 //   _textRoomPress() {
 //     if (!this.state.textRoomValue) {
 //       return
@@ -302,7 +322,7 @@
 //       pc.textDataChannel.send(this.state.textRoomValue);
 //     }
 //     this.setState({textRoomData, textRoomValue: ''});
-//   },
+//   }
 //   _renderTextRoom() {
 //     return (
 //       <View style={styles.listViewContainer}>
@@ -321,7 +341,8 @@
 //         </TouchableHighlight>
 //       </View>
 //     );
-//   },
+//   }
+//
 //   render() {
 //     return (
 //       <View style={styles.container}>
@@ -354,17 +375,14 @@
 //             </TouchableHighlight>
 //           </View>) : null
 //         }
-//         <RTCView streamURL={this.state.selfViewSrc} style={styles.selfView}/>
-//         {
-//           mapHash(this.state.remoteList, function(remote, index) {
-//             return <RTCView key={index} streamURL={remote} style={styles.remoteView}/>
-//           })
-//         }
 //       </View>
 //     );
 //   }
-// });
+// }
 //
+// //   }
+// // });
+// //
 // const styles = StyleSheet.create({
 //   selfView: {
 //     width: 200,
@@ -389,4 +407,4 @@
 //   },
 // });
 //
-// AppRegistry.registerComponent('RCTWebRTCDemo', () => RCTWebRTCDemo);
+// AppRegistry.registerComponent('WebRCTApp', () => WebRCTApp);

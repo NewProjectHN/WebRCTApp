@@ -8,8 +8,19 @@
 
 import React,{Component} from 'react';
 import {StyleSheet, Text, View,Button} from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
+import VideoView from './../component/VideoView';
+import MessageView from './../component/MessageView';
 
 export default class DetailScreen extends Component<Props> {
+
+  constructor () {
+  super()
+  this.state = {
+    index: 0
+  }
+  this.updateIndex = this.updateIndex.bind(this)
+}
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -17,38 +28,31 @@ export default class DetailScreen extends Component<Props> {
     };
   };
 
+  updateIndex = (index) => {
+      this.setState({index})
+  }
+
   render() {
 
     const { navigation } = this.props;
     const itemId = navigation.getParam('id');
     const otherParam = navigation.getParam('name', 'Khong co Ten');
-
+    let {index} = this.state;
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>Detail Page</Text>
-        <Text>itemID: {JSON.stringify(itemId)}</Text>
-        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
+          <ButtonGroup
+          selectedBackgroundColor="pink"
+          onPress={this.updateIndex}
+          selectedIndex={this.state.index}
+          buttons={['Video', 'Message']}
+          containerStyle={{height: 30}} />
+          {index == 0 ?(
+              <VideoView style={{flex:1}}></VideoView>
+            ):(
+              <MessageView style={{flex:1}}></MessageView>
+            )
+          }
 
-        <Button
-          title="Update the title"
-          onPress={() => this.props.navigation.setParams({name: 'Nguyen Cam Tu'})}
-        />
-
-        <Button
-          title="Go to Details... again"
-          onPress={() =>
-            this.props.navigation.push('Details', {
-              id: Math.floor(Math.random() * 100),
-            })}
-        />
-        <Button
-          title="Go to Home"
-          onPress={() => this.props.navigation.navigate('Home')}
-        />
-        <Button
-          title="Go back"
-          onPress={() => this.props.navigation.goBack()}
-        />
       </View>
     );
   }
@@ -58,13 +62,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  view: {
+    flex: 1
   },
   instructions: {
     textAlign: 'center',
