@@ -16,8 +16,8 @@ export default class VideoView extends Component<Props> {
     this.state = {text:''}
   }
 
-  _sendText(text){
-    alert(text);
+  _sendText(){
+    alert(this.state.text);
   }
 
   render() {
@@ -26,8 +26,8 @@ export default class VideoView extends Component<Props> {
       <View style={styles.container}>
           <View style={{flex:5}}></View>
           <View style={{flex:1}}>
-              <TextInput style={{flex:1,textAlign:'center'}} onPress={(text) => this.setState({text})} defaultValue={text}/>
-              <Button title="Send" onPress={() => alert(this.state.text)}/>
+              <TextInput style={{flex:1,textAlign:'center'}} onPress={(text) => this.setState({text})} defaultValue={this.state.text}/>
+              <Button style={{flex:1}} title="Send" onPress={() => this._sendText()}/>
           </View>
 
       </View>

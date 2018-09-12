@@ -17,7 +17,7 @@ export default class DetailScreen extends Component<Props> {
   constructor () {
   super()
   this.state = {
-    index: 0
+    index: 1
   }
   this.updateIndex = this.updateIndex.bind(this)
 }

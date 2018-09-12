@@ -19,8 +19,8 @@ export default class VideoView extends Component<Props> {
 
     return (
       <View style={styles.container}>
-          <View style={{flex:4,backgroundColor:'red',margin:2}}></View>
-          <View style={{flex:1,flexDirection:'row',backgroundColor:'red',margin:2}}>
+          <View style={{flex:4,backgroundColor:'grey',margin:2}}></View>
+          <View style={{flex:1,flexDirection:'row',backgroundColor:'grey',margin:2}}>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
