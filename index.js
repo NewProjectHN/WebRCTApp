@@ -6,6 +6,8 @@ import { createStackNavigator } from 'react-navigation';
 import HomeScreen from './screen/HomeScreen';
 import DetailScreen from './screen/DetailScreen';
 
+console.disableYellowBox = true;
+
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -17,7 +19,7 @@ const RootStack = createStackNavigator(
 );
 
 export default class WebRCTApp extends React.Component {
-  
+
   render() {
     return <RootStack />;
   }

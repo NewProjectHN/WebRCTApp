@@ -7,7 +7,7 @@
  */
 
 import React,{Component} from 'react';
-import {StyleSheet, Text, View,Button,TextInput} from 'react-native';
+import {StyleSheet, Text, View,Button,TextInput,Dimensions,ScrollView} from 'react-native';
 
 export default class VideoView extends Component<Props> {
 
@@ -21,14 +21,18 @@ export default class VideoView extends Component<Props> {
   }
 
   render() {
-
+    let deviceWidth = Dimensions.get('window').width;
+  // alert(deviceWidth);
     return (
       <View style={styles.container}>
-          <View style={{flex:5}}></View>
-          <View style={{flex:1}}>
-              <TextInput style={{flex:1,textAlign:'center'}} onPress={(text) => this.setState({text})} defaultValue={this.state.text}/>
-              <Button style={{flex:1}} title="Send" onPress={() => this._sendText()}/>
+          <View style={{flex:4}}>
+              <ScrollView></ScrollView>
           </View>
+          <View style={{flex:1,backgroundColor:'green'}}>
+            <TextInput style={{flex:1}} onPress={(text) => this.setState({text:text})} defaultValue={this.state.text}></TextInput>
+            <Button style={{flex:1,position:'absolute',bottom:0,left:0,right:0,width:deviceWidth}} title="Send" onPress={() => this._sendText()}/>
+          </View>
+
 
       </View>
     );
@@ -38,8 +42,7 @@ export default class VideoView extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'red',
   },
   welcome: {
     fontSize: 20,
