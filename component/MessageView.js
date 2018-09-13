@@ -8,32 +8,52 @@
 
 import React,{Component} from 'react';
 import {StyleSheet, Text, View,Button,TextInput,Dimensions,ScrollView} from 'react-native';
+import MessageItem from './MessageItem';
 
-export default class VideoView extends Component<Props> {
+export default class MessageView extends Component<Props> {
 
   constructor () {
     super()
-    this.state = {text:''}
+    this.state = {text:'',lstMessage:[]}
   }
 
   _sendText(){
-    alert(this.state.text);
+    let {text,lstMessage} = this.state;
+    if(text != ''){
+      lstMessage.push(text);
+      this.setState({'text':'',lstMessage});
+    }
+  }
+
+  _keyPress(evt){
+    // alert(evt.nativeEvent.key);
   }
 
   render() {
     let deviceWidth = Dimensions.get('window').width;
+    let {lstMessage} = this.state;
+    let messages = [];
+    for(var i=0;i < lstMessage.length;i++){
+      messages.push(<MessageItem message={{time:'21:34',from:'Long',content:lstMessage[i]}}></MessageItem>);
+    }
   // alert(deviceWidth);
     return (
       <View style={styles.container}>
           <View style={{flex:4}}>
-              <ScrollView></ScrollView>
+              <ScrollView ref={ref => this.scrollView = ref}
+                onContentSizeChange={(contentWidth, contentHeight)=>{
+                        this.scrollView.scrollToEnd({animated: true});}}>
+                  {messages}
+              </ScrollView>
           </View>
           <View style={{flex:1,backgroundColor:'green'}}>
-            <TextInput style={{flex:1}} onPress={(text) => this.setState({text:text})} defaultValue={this.state.text}></TextInput>
+            <TextInput style={{flex:1,height:50}}
+              onChangeText={(text) => this.setState({text})}
+              value={this.state.text}
+              onKeyPress={(evt) => this._keyPress(evt)}
+            ></TextInput>
             <Button style={{flex:1,position:'absolute',bottom:0,left:0,right:0,width:deviceWidth}} title="Send" onPress={() => this._sendText()}/>
           </View>
-
-
       </View>
     );
   }
@@ -42,7 +62,7 @@ export default class VideoView extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
+    backgroundColor:'red'
   },
   welcome: {
     fontSize: 20,
