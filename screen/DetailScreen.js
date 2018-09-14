@@ -8,9 +8,20 @@
 
 import React,{Component} from 'react';
 import {StyleSheet, Text, View,Button} from 'react-native';
+import {createTabNavigator} from 'react-navigation';
 import { ButtonGroup } from 'react-native-elements';
 import VideoView from './../component/VideoView';
 import MessageView from './../component/MessageView';
+
+const VideoStack = createTabNavigator(
+  {
+    message: MessageView,
+    video: VideoView
+  },
+  {
+    initialRouteName: 'video',
+  }
+);
 
 export default class DetailScreen extends Component<Props> {
 
@@ -19,8 +30,8 @@ export default class DetailScreen extends Component<Props> {
   this.state = {
     index: 1
   }
-  this.updateIndex = this.updateIndex.bind(this)
-}
+    this.updateIndex = this.updateIndex.bind(this)
+  }
 
   static navigationOptions = ({ navigation }) => {
     return {
@@ -39,21 +50,7 @@ export default class DetailScreen extends Component<Props> {
     const otherParam = navigation.getParam('name', 'Khong co Ten');
     let {index} = this.state;
     return (
-      <View style={styles.container}>
-          <ButtonGroup
-          selectedBackgroundColor="pink"
-          onPress={this.updateIndex}
-          selectedIndex={this.state.index}
-          buttons={['Video', 'Message']}
-          containerStyle={{height: 30}} />
-          {index == 0 ?(
-              <VideoView style={{flex:1}}></VideoView>
-            ):(
-              <MessageView style={{flex:1}}></MessageView>
-            )
-          }
-
-      </View>
+        <VideoStack/>
     );
   }
 }

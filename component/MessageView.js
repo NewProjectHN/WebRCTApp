@@ -46,13 +46,13 @@ export default class MessageView extends Component<Props> {
                   {messages}
               </ScrollView>
           </View>
-          <View style={{backgroundColor:'green',height:100,bottom:0,position:'absolute',width:deviceWidth}}>
-            <TextInput style={{flex:1,height:50}}
+          <View style={{backgroundColor:'green',height:80,bottom:0,position:'absolute',width:deviceWidth}}>
+            <TextInput style={{flex:1,height:40}}
               onChangeText={(text) => this.setState({text})}
               value={this.state.text}
               onKeyPress={(evt) => this._keyPress(evt)}
             ></TextInput>
-            <Button style={{flex:1,position:'absolute',bottom:0,left:0,right:0,width:deviceWidth,height:50}} title="Send" onPress={() => this._sendText()}/>
+            <Button style={{flex:1,position:'absolute',bottom:0,left:0,right:0,width:deviceWidth,height:40}} title="Send" onPress={() => this._sendText()}/>
           </View>
       </View>
     );
@@ -62,7 +62,7 @@ export default class MessageView extends Component<Props> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor:'red'
+    backgroundColor:'white'
   },
   welcome: {
     fontSize: 20,

@@ -7,7 +7,7 @@
  */
 
 import React,{Component} from 'react';
-import {StyleSheet, Text, View,Button} from 'react-native';
+import {StyleSheet, Text, View,Button,ScrollView} from 'react-native';
 
 export default class VideoView extends Component<Props> {
 
@@ -20,14 +20,14 @@ export default class VideoView extends Component<Props> {
     return (
       <View style={styles.container}>
           <View style={{flex:4,backgroundColor:'grey',margin:2}}></View>
-          <View style={{flex:1,flexDirection:'row',backgroundColor:'grey',margin:2}}>
+          <ScrollView style={{flex:1,flexDirection:'row',backgroundColor:'grey',margin:2}} horizontal={true}>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
               <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
-          </View>
+          </ScrollView>
 
       </View>
     );
