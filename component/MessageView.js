@@ -7,7 +7,7 @@
  */
 
 import React,{Component} from 'react';
-import {StyleSheet, Text, View,Button,TextInput,Dimensions,ScrollView} from 'react-native';
+import {StyleSheet, Text, View,Button,TextInput,Dimensions,ScrollView,KeyboardAvoidingView} from 'react-native';
 import MessageItem from './MessageItem';
 
 export default class MessageView extends Component<Props> {
@@ -39,20 +39,20 @@ export default class MessageView extends Component<Props> {
   // alert(deviceWidth);
     return (
       <View style={styles.container}>
-          <View style={{flex:4}}>
+          <View style={{}} behavior='padding'>
               <ScrollView ref={ref => this.scrollView = ref}
                 onContentSizeChange={(contentWidth, contentHeight)=>{
                         this.scrollView.scrollToEnd({animated: true});}}>
                   {messages}
               </ScrollView>
           </View>
-          <View style={{flex:1,backgroundColor:'green'}}>
+          <View style={{backgroundColor:'green',height:100,bottom:0,position:'absolute',width:deviceWidth}}>
             <TextInput style={{flex:1,height:50}}
               onChangeText={(text) => this.setState({text})}
               value={this.state.text}
               onKeyPress={(evt) => this._keyPress(evt)}
             ></TextInput>
-            <Button style={{flex:1,position:'absolute',bottom:0,left:0,right:0,width:deviceWidth}} title="Send" onPress={() => this._sendText()}/>
+            <Button style={{flex:1,position:'absolute',bottom:0,left:0,right:0,width:deviceWidth,height:50}} title="Send" onPress={() => this._sendText()}/>
           </View>
       </View>
     );
