@@ -11,7 +11,6 @@ import MessageView from './component/MessageView';
 console.disableYellowBox = true;
 
 
-
 const RootStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -24,11 +23,11 @@ const RootStack = createStackNavigator(
 
 
 
-export default class WebRCTApp extends React.Component {
+export default class App extends React.Component {
 
   render() {
     return <RootStack />;
   }
 }
 
-AppRegistry.registerComponent('WebRCTApp', () => WebRCTApp);
+AppRegistry.registerComponent('WebRCTApp', () => App);

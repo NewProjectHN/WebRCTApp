@@ -30,7 +30,8 @@ export default class HomeScreen extends Component<Props> {
   };
 
   componentDidMount(){
-      this.props.navigation.navigate('Details',{name:'234',room:'234'});
+      let {name,room} = this.state;
+      this.props.navigation.navigate('Details',{name:name,room:room});
   }
 
   _joinRoom(){

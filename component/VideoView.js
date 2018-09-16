@@ -8,27 +8,41 @@
 
 import React,{Component} from 'react';
 import {StyleSheet, Text, View,Button,ScrollView} from 'react-native';
+import FullScreenVideo from './../component/FullScreenVideo';
+import Thumbnails from './../component/Thumbnails';
 
 export default class VideoView extends Component<Props> {
 
   constructor () {
     super()
+    this.state = {activeStreamResult:null,streams:[]};
+  }
+
+  handleSetActive(streamId) {
+    this.setState({
+      activeStreamId: streamId
+    });
+  }
+
+  componentDidMount(){
+    // let {screenProps} = this.props;
+    // alert(screenProps.name);
   }
 
   render() {
+    let streams = this.props.screenProps;
+    let {activeStreamResult} = this.state;
 
+    if(streams.length > 0 && activeStreamResult == null){
+      activeStreamResult = streams[0];
+      this.setState({activeStreamResult})
+    }
     return (
       <View style={styles.container}>
-          <View style={{flex:4,backgroundColor:'grey',margin:2}}></View>
-          <ScrollView style={{flex:1,flexDirection:'row',backgroundColor:'grey',margin:2}} horizontal={true}>
-              <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
-              <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
-              <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
-              <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
-              <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
-              <View style={{flex:1,backgroundColor:'green',margin:10,minWidth:100}}></View>
-          </ScrollView>
-
+          <FullScreenVideo streamURL={activeStreamResult != null ? activeStreamResult.url : null} />
+          <Thumbnails streams={streams}
+            setActive={this.handleSetActive.bind(this)}
+            activeStreamId={this.state.activeStreamId}/>
       </View>
     );
   }

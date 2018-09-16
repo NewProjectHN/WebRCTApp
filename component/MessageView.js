@@ -17,6 +17,11 @@ export default class MessageView extends Component<Props> {
     this.state = {text:'',lstMessage:[]}
   }
 
+  componentDidMount(){
+    // let {screenProps} = this.props;
+    // alert(screenProps.name);
+  }
+
   _sendText(){
     let {text,lstMessage} = this.state;
     if(text != ''){
