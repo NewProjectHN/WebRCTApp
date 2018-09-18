@@ -8,7 +8,7 @@
 
 import React,{Component} from 'react';
 import {StyleSheet, Text, View,Button} from 'react-native';
-import {createTabNavigator} from 'react-navigation';
+import {createMaterialTopTabNavigator} from 'react-navigation';
 import { ButtonGroup } from 'react-native-elements';
 import VideoView from './../component/VideoView';
 import MessageView from './../component/MessageView';
@@ -65,11 +65,7 @@ export default class DetailScreen extends Component<Props> {
 
     let name = this.props.navigation.getParam('name');
     let room = this.props.navigation.getParam('room',VIDEO_CONFERENCE_ROOM);
-    // alert(room)
-    // if(this.state.name.length == 0 || this.state.joinState != "ready") {
-    //   return;
-    // }
-    //ELSE:
+
     this.setState({
       joinState: "joining"
     });
@@ -90,6 +86,7 @@ export default class DetailScreen extends Component<Props> {
   }
 
   handleFriendLeft(socketId) {
+    console.log('friend left:'+socketId);
     let newState = {
       streams: this.state.streams.filter(stream => stream.id != socketId)
     }
@@ -100,7 +97,7 @@ export default class DetailScreen extends Component<Props> {
   }
 
   handleFriendConnected(socketId, stream) {
-
+    console.log('friend connect:'+socketId + "| URL:"+stream.toURL());
     this.setState({
       streams: [
         ...this.state.streams,
@@ -110,17 +107,19 @@ export default class DetailScreen extends Component<Props> {
         }
       ]
     })
+    console.log('');
     //
-    // alert('st length:'+this.state.streams.length)
   }
 
   handleDataChannelMessage(message) {
 
   }
 
+
+
   render() {
     let props = this.props;
-    const RTCStack = createTabNavigator(
+    const RTCStack = createMaterialTopTabNavigator(
       {
         video: {screen:props =>  <VideoView {...props}/>},
         message: MessageView
@@ -136,7 +135,7 @@ export default class DetailScreen extends Component<Props> {
     let {index} = this.state;
     let param ={name:'long'}
     let {joinState,streams} = this.state;
-
+    console.log('streams length',streams.length);
     return (
 
       joinState == 'joined' ? (
@@ -144,6 +143,8 @@ export default class DetailScreen extends Component<Props> {
         ):(
           <View><Text>{joinState}</Text></View>
       )
+
+
 
     );
   }
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: 'white',
   },
   view: {
     flex: 1

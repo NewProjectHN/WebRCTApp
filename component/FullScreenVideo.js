@@ -13,13 +13,13 @@ export default class FullScreenVideo extends Component{
   }
 
   render() {
-    return <View style={styles.container}>
-      {
-        config.useRCTView ?
-        <RTCView streamURL={this.props.streamURL} style={styles.video} />
-        :
-        <Image source={this.props.streamURL} style={styles.video} resizeMode={"contain"} />
-      }
+    let {streamURL} = this.props;
+    console.log("Stream Full:"+streamURL);
+    return <View style={{flex:1}}>
+
+        <RTCView style={{width:300,height:300}} streamURL={streamURL}/>
+
+
     </View>
   }
 }

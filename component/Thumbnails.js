@@ -10,21 +10,21 @@ export default class Thumbnails extends Component {
     super(props);
     const dataSource = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
     this.state = {
-      dataSource: dataSource.cloneWithRows(props.streams.filter(stream => stream.id != props.activeStreamId))
+      dataSource: dataSource.cloneWithRows(props.streams)
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    let b = nextProps.streams != this.props.streams || nextProps.activeStreamId != this.props.activeStreamId;
+    let b = nextProps.streams != this.props.streams;
     if(b) {
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(nextProps.streams.filter(stream => stream.id != nextProps.activeStreamId))
+        dataSource: this.state.dataSource.cloneWithRows(nextProps.streams)
       })
     }
   }
 
   render() {
-    if(this.props.streams.length <= 1) {
+    if(this.props.streams.length < 1) {
       return null;
     }
     //ELSE:
@@ -37,6 +37,7 @@ export default class Thumbnails extends Component {
   }
 
   renderRow(stream, sectionId, rowId) {
+    console.log('Stream row:'+stream.url);
     let thumbnailStyles = [styles.thumbnail];
     if(rowId == this.props.activeStreamId) {
       thumbnailStyles.push(styles.activeThumbnail);

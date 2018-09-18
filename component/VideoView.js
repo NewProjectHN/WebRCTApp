@@ -15,7 +15,7 @@ export default class VideoView extends Component<Props> {
 
   constructor () {
     super()
-    this.state = {activeStreamResult:null,streams:[]};
+    this.state = {activeStreamIndex:0,activeStreamId:null};
   }
 
   handleSetActive(streamId) {
@@ -29,18 +29,48 @@ export default class VideoView extends Component<Props> {
     // alert(screenProps.name);
   }
 
+  _changeActiveStream(){
+
+    let streams = this.props.screenProps;
+    let {activeStreamIndex,activeStreamId} = this.state;
+    console.log('activeStreamIndex:'+activeStreamIndex + "|streams.length:"+streams.length);
+
+    if(activeStreamIndex + 1 < streams.length){
+      activeStreamIndex += 1;
+      activeStreamId = streams[activeStreamIndex].id;
+      console.log('change active to:',activeStreamId);
+    }else{
+      activeStreamIndex = 0;
+      console.log('index:',streams.length);
+    }
+    activeStreamId = streams[activeStreamIndex].id;
+    this.setState({activeStreamIndex,activeStreamId});
+  }
   render() {
     let streams = this.props.screenProps;
-    let {activeStreamResult} = this.state;
 
-    if(streams.length > 0 && activeStreamResult == null){
-      activeStreamResult = streams[0];
-      this.setState({activeStreamResult})
+    let activeStreamResult = streams.filter(stream => stream.id == this.state.activeStreamId);
+    console.log("render active:" + this.state.activeStreamId);
+    streams.forEach((stream)=> {console.log("ID in stream:"+stream.id)});
+    if(activeStreamResult != undefined && activeStreamResult != null){
+      console.log('activeStreamResult url:',activeStreamResult);
+    }else{
+      console.log('Not found active streams');
     }
+
+    let urlActive = null;
+    if(activeStreamResult != null && activeStreamResult.length > 0){
+      urlActive= activeStreamResult[0].url;
+    }
+
+    console.log('urlActive:'+urlActive);
+
     return (
+
       <View style={styles.container}>
-          <FullScreenVideo streamURL={activeStreamResult != null ? activeStreamResult.url : null} />
-          <Thumbnails streams={streams}
+          <Button style={{width:100,height:100}} onPress={()=>this._changeActiveStream()} title="Change Active Stream"></Button>
+          <FullScreenVideo style={{flex:1}} streamURL={urlActive} />
+          <Thumbnails style={{width:300,height:200}} streams={streams}
             setActive={this.handleSetActive.bind(this)}
             activeStreamId={this.state.activeStreamId}/>
       </View>
